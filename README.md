@@ -2,7 +2,7 @@
 A homepage for qutebrowser inspired by neofetch
 
 ## Demo
-![Shot of qutefetch](.demo.png)
+![Shot of qutefetch](demo.png)
 
 # Install
 
