@@ -8,8 +8,7 @@
     body {
       background: #282828;
       color: #ebdbb2;
-
-      font-family: 'Hack Nerd Font';
+      font-family: Arial, sans-serif;
       font-size: larger;
       height: 100vh;
       display: flex;
@@ -21,59 +20,53 @@
     body > * {
       margin: 15px;
     }
-
   </style>
 </head>
 <body>
   <img src="https://qutebrowser.org/icons/qutebrowser.svg" alt="Qutebrowser Logo">
   <div id="sysinfo" style="float: right"></div>
+
+  <script>
+    function newSysinfoRow(title, text) {
+      let titleSpan = document.createElement("span");
+      titleSpan.innerHTML = title;
+      titleSpan.style.color = "#458588";
+
+      let colonSpan = document.createElement("span");
+      colonSpan.innerHTML = ": ";
+
+      let textNode = document.createTextNode(text);
+
+      let div = document.createElement("div");
+      div.appendChild(titleSpan);
+      div.appendChild(colonSpan);
+      div.appendChild(textNode);
+
+      return div;
+    }
+
+    // WebGL Renderer
+    let canvas = document.createElement('canvas');
+    let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    let debug = gl.getExtension("WEBGL_debug_renderer_info");
+    let renderer = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL);
+    let gpu = renderer.split("(")[0].trim();
+    let kernel = renderer.split("(")[1].split(")")[0].split(",").pop().trim();
+
+    // Sysinfo
+    let sysinfo = document.getElementById("sysinfo");
+
+    // Operating system
+    sysinfo.appendChild(newSysinfoRow("OS", window.navigator.platform));
+    sysinfo.appendChild(newSysinfoRow("Kernel", kernel));
+
+    // Resolution
+    sysinfo.appendChild(newSysinfoRow("Resolution", `${screen.width}x${screen.height}`));
+
+    sysinfo.appendChild(newSysinfoRow("GPU", gpu));
+    sysinfo.appendChild(newSysinfoRow("CPU", `${navigator.hardwareConcurrency} core processor`));
+
+    sysinfo.appendChild(newSysinfoRow("Memory", `${navigator.deviceMemory} GB`));
+  </script>
 </body>
 </html>
-
-<script>
-
-  function newSysinfoRow(title, text) {
-    let titleSpan = document.createElement("span")
-    titleSpan.innerHTML = title
-    titleSpan.style.color = "#458588"
-
-    let colonSpan = document.createElement("span")
-    colonSpan.innerHTML = ": "
-
-    let textNode = document.createTextNode(text)
-
-    let div = document.createElement("div")
-    div.appendChild(titleSpan)
-    div.appendChild(colonSpan)
-    div.appendChild(textNode)
-
-    return div
-  }
-
-  // WebGL Renderer
-  let canvas = document.createElement('canvas');
-  let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  let debug = gl.getExtension("WEBGL_debug_renderer_info")
-  let renderer = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL)
-  let gpu = renderer.split("(")[0].trim()
-  let kernel = renderer.split("(")[1].split(")")[0].split(",").pop().trim()
-
-
-
-  // Sysinfo
-  let sysinfo = document.getElementById("sysinfo")
-  
-  // Operating system
-  sysinfo.appendChild(newSysinfoRow("OS", window.navigator.platform))
-  sysinfo.appendChild(newSysinfoRow("Kernel", kernel))
-
-  // Resolution
-  sysinfo.appendChild(newSysinfoRow("Resolution", `${screen.width}x${screen.height}`))
-
-  sysinfo.appendChild(newSysinfoRow("GPU", gpu))
-  sysinfo.appendChild(newSysinfoRow("CPU", `${navigator.hardwareConcurrency} core processor`))
-
-  sysinfo.appendChild(newSysinfoRow("Memory", `${navigator.deviceMemory} GB`))
-
-
-</script>
