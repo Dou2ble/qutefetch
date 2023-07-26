@@ -1,6 +1,9 @@
 # qutefetch
 A homepage for qutebrowser inspired by neofetch
 
+## Demo
+![Shot of qutefetch](demo.png)
+
 # Install
 
 First download index.html
@@ -25,6 +28,5 @@ c.url.start_pages = "file:///path/to/qutefetch/index.html"
 ```
 or
 ```py
-config.set("url.start_pages", "file:///path/to/qutefetch/index.html") 
+config.set("url.start_pages", "file:///path/to/qutefetch/index.html")
 ```
-
