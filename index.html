@@ -12,6 +12,7 @@
       font-size: larger;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       margin: 0px;
@@ -20,11 +21,64 @@
     body > * {
       margin: 15px;
     }
+
+    /* Style for the logo and search bar container */
+    #content-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    /* Modified styles for the search bar */
+    #search-bar {
+      display: flex;
+      align-items: center;
+      margin-top: 80px;
+      border: 2px solid #ebdbb2; /* Beige border */
+      border-radius: 5px;
+      width: 600px;
+      background-color: #282828; /* Dark background to resemble terminal */
+      padding: 5px;
+    }
+
+    #search-input {
+      flex: 1;
+      background-color: transparent;
+      border: none;
+      color: #ebdbb2;
+      font-size: larger;
+      margin-left: 5px;
+      outline: none; /* Remove the default focus outline */
+    }
+
+    #search-input::placeholder {
+      /* Add terminal-like caret symbol for the placeholder text */
+      content: "\u258B";
+      color: #928374; /* Grey caret color */
+      font-size: larger;
+      margin-left: 3px;
+    }
+
+    #search-button {
+      background-color: #3c3836; /* Dark brown color to match terminal */
+      color: #ebdbb2;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <img src="https://qutebrowser.org/icons/qutebrowser.svg" alt="Qutebrowser Logo">
-  <div id="sysinfo" style="float: right"></div>
+  <div id="content-container">
+    <img src="https://qutebrowser.org/icons/qutebrowser.svg" alt="Qutebrowser Logo">
+    <div id="sysinfo" style="margin-left: 50px;"></div>
+  </div>
+
+  <div id="search-bar">
+    <input type="text" id="search-input" placeholder="Search The Matrix">
+    <button id="search-button">Search</button>
+  </div>
 
   <script>
     function newSysinfoRow(title, text) {
@@ -67,6 +121,24 @@
     sysinfo.appendChild(newSysinfoRow("CPU", `${navigator.hardwareConcurrency} core processor`));
 
     sysinfo.appendChild(newSysinfoRow("Memory", `${navigator.deviceMemory} GB`));
+
+    // Search functionality
+    const searchInput = document.getElementById("search-input");
+    const searchButton = document.getElementById("search-button");
+
+    searchButton.addEventListener("click", () => {
+      const query = searchInput.value.trim();
+      if (query !== "") {
+        const searchUrl = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
+        window.open(searchUrl, "_blank");
+      }
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        searchButton.click();
+      }
+    });
   </script>
 </body>
 </html>
